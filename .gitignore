@@ -1,0 +1,8 @@
+*~
+*.egg-info
+__pycache__
+.cache
+*.swp
+trec-qa/*.tsv
+trec-qa/*.txt
+*.hdf5
