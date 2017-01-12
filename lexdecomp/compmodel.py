@@ -106,7 +106,7 @@ def loss(logits, labels):
 
 
 def training(loss):
-    tf.scalar_summary('loss', loss)
+    tf.summary.scalar('loss', loss)
     # optimizer
     optimizer = tf.train.AdamOptimizer()
     global_step = tf.Variable(0, name='global_step', trainable=False)

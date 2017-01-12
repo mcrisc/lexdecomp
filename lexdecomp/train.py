@@ -104,7 +104,7 @@ def run_training(training_data, dev_data, test_data, model_dir):
 
     # training
     print('training: %d epochs' % EPOCHS)
-    init = tf.initialize_all_variables()
+    init = tf.global_variables_initializer()
     best_map = 0.0
     last_improvement = 0
 
