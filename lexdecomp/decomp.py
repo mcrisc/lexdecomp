@@ -115,16 +115,25 @@ def semantic_match(sentence, attention_vec):
     return vector
 
 
-def decompose(word_vec, match_vec):
+def decompose(word_vec, match_vec, method='linear'):
     """Decompose `word_vec` (s_i) in two channels (similar, dissimilar) using
     the `match_vec` (s^_i).
 
-    Implements the orthogonal decomposition from Wang et al. (2016, sec.3.2).
+    Implements decomposition methods from Wang et al. (2016, sec.3.2).
     """
-    # About the formulas: https://en.wikipedia.org/wiki/Vector_projection#Vector_rejection  # noqa
-    alpha = np.dot(word_vec, match_vec) / np.dot(match_vec, match_vec)
-    positive = alpha * match_vec  # parallel to match_vec
-    negative = word_vec - positive  # perpendicular
+    assert method in ('orthogonal', 'linear')
+
+    if method == 'orthogonal':
+        # About the formulas: https://en.wikipedia.org/wiki/Vector_projection#Vector_rejection  # noqa
+        alpha = np.dot(word_vec, match_vec) / np.dot(match_vec, match_vec)
+        positive = alpha * match_vec  # parallel to match_vec
+        negative = word_vec - positive  # perpendicular
+    elif method == 'linear':
+        # cosine
+        alpha = np.dot(word_vec, match_vec) / (
+            np.linalg.norm(word_vec) * np.linalg.norm(match_vec))
+        positive = alpha * word_vec
+        negative = (1.0 - alpha) * word_vec
     return positive, negative
 
 
