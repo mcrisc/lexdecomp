@@ -43,20 +43,25 @@ Here is a step-by-step example of how to train and evaluate the model.
 
 ### 1. Dataset preparation
 
-Converting JSONL files to TSV:
+1.1 Converting JSONL files to TSV:
 
     $ cd trec-qa
     $ python3 tools/jsonl2tsv.py dev-filtered.jsonl
     $ python3 tools/jsonl2tsv.py test-filtered.jsonl
     $ python3 tools/jsonl2tsv.py train-filtered.jsonl
 
-Tokenizing TSV files:
+
+1.2 Tokenizing TSV files:
+<a name="tokenizing"></a>
 
     $ python3 ../lexdecomp/dataprep.py dev-filtered.tsv
     $ python3 ../lexdecomp/dataprep.py test-filtered.tsv
     $ python3 ../lexdecomp/dataprep.py train-filtered.tsv
 
-Generating TREC relevance file (qrel):
+Tokenized files are written to `.txt` files. You'll need them later, in [decomposition step](#decomposition).
+
+
+1.3 Generating TREC relevance file (qrel):
 
     $ python3 tools/tsv2trecqrels.py test-filtered.tsv
 
@@ -73,13 +78,16 @@ The implementation requires vectors to be stored in two files: `<base-name>.voc`
 
 
 #### Decomposition
+<a name="decomposition"></a>
 Semantic matching and decomposition are executed as follows:
 
     $ python3 lexdecomp/decomp.py GoogleNews-vectors-300d.npy trec-qa/dev-filtered.txt dev-filtered.hdf5
     $ python3 lexdecomp/decomp.py GoogleNews-vectors-300d.npy trec-qa/test-filtered.txt test-filtered.hdf5
     $ python3 lexdecomp/decomp.py GoogleNews-vectors-300d.npy trec-qa/train-filtered.txt train-filtered.hdf5
 
-Note that these commands should be run from the repository base directory.
+Important notes:
+- These commands should be run from the repository base directory.
+- The input files *are not* the TSV files generated in step 1.1, but the tokenized files from [step 1.2](#tokenizing).
 
 ### 3. Model Training
 
