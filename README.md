@@ -75,6 +75,8 @@ Word embeddings will be required to run the decomposition. In this example, word
 
 The implementation requires vectors to be stored in two files: `<base-name>.voc` and `<base-name>.npy`, which are, respectively, the vocabulary and vector files. The vocabulary (`.voc`) should be a plain text file containing one word per line, while the vector file (`.npy`) should contain a NumPy matrix, where each line is the vector of the corresponding word in the vocabulary.
 
+You can use the scripts in `tools` directory to get both the NumPy matrix and the vocabulary file from the original word2vec file (`.bin`).
+
 
 
 #### Decomposition
@@ -98,6 +100,7 @@ To train the model:
 
 ### 4. Model Evaluation
 The script `train.py` prints some measures during training. Although they are perfectly useful to guide the training process, their values differ significantly from those computed by [trec_eval][trec-eval], the "official" measurement tool for the Answer Selection (AS) task.
+
 [trec-eval]: http://trec.nist.gov/trec_eval/
 
 To compute the measures using trec_eval, [download the tool][trec-eval] and execute the following command:
