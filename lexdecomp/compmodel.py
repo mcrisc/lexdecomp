@@ -35,7 +35,7 @@ def conv_layer(in_data):
         embedding_size = in_data.shape[1]
         sequence_length = in_data.shape[2]
         in_channels = in_data.shape[3]
-    if hasattr(in_data, 'get_shape'):  # a TensorFlow placeholder
+    elif hasattr(in_data, 'get_shape'):  # a TensorFlow placeholder
         embedding_size = in_data.get_shape()[1].value
         sequence_length = in_data.get_shape()[2].value
         in_channels = in_data.get_shape()[3].value
