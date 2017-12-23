@@ -56,12 +56,16 @@ if __name__ == '__main__':
             if end == -1:
                 break
             wordbytes = mvec[pos:end]
-            word = wordbytes.decode('utf-8', errors='replace').strip()
-            # reading the corresponding vector
-            pos = end + 1
-            end = pos + byte_offset
-            vector = array('f', mvec[pos:end])
-            if vocabulary is not None and word not in vocabulary:
-                continue  # skip word if not in vocabulary
-            print(word, ' '.join(map(str, vector)), file=fout)
+            try:
+                word = wordbytes.decode('utf-8', errors='replace').strip()
+                # reading the corresponding vector
+                pos = end + 1
+                end = pos + byte_offset
+                vector = array('f', mvec[pos:end])
+                if vocabulary is not None and word not in vocabulary:
+                    continue  # skip word if not in vocabulary
+                else:
+                    print(word, ' '.join(map(str, vector)), file=fout)
+            except:
+                continue
         print('finished')

@@ -78,12 +78,15 @@ def run_training(training_data, dev_data, test_data, model_dir):
         [None, EMBEDDING_SIZE, max_sentence, IN_CHANNELS])
     labels = tf.placeholder(tf.float32, [None])
     keep_prob = tf.placeholder(tf.float32, name='keep_prob')
-
+    
     # building the graph
+    print('HERE!-0')
     logits = compmodel.inference(questions, sentences, keep_prob)
+    print('HERE!-1')
     loss = compmodel.loss(logits, labels)
+    print('HERE!-2')
     train_op = compmodel.training(loss)
-
+    print('HERE!')
     saver = tf.train.Saver()
     bestdev_model_file = Path(model_dir, 'best-dev_model.ckpt').as_posix()
 
@@ -154,27 +157,33 @@ def run_training(training_data, dev_data, test_data, model_dir):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='Trains the sentence composition model (CNN).')
-    parser.add_argument('training', help='training set (.hdf5)')
-    parser.add_argument('dev', help='dev set (.hdf5)')
-    parser.add_argument('test', help='test set (.hdf5)')
-    parser.add_argument('model_dir', help='directory to save models')
-    args = parser.parse_args()
-
+#    parser = argparse.ArgumentParser(
+#        description='Trains the sentence composition model (CNN).')
+#    parser.add_argument('training', help='training set (.hdf5)')
+#    parser.add_argument('dev', help='dev set (.hdf5)')
+#    parser.add_argument('test', help='test set (.hdf5)')
+#    parser.add_argument('model_dir', help='directory to save models')
+#    args = parser.parse_args()
+#    args.append('../train-filtered.hdf5')
+#    args.append('../dev-filtered.hdf5')
+#    args.append('../test-filtered.hdf5')
+#    args.append('../saved-model')
     # checking model directory
-    model_dir = Path(args.model_dir)
+#    print ('Yes1')
+    model_dir = Path('../saved-model')
     if not model_dir.exists():
         model_dir.mkdir()
 
     # data files
-    training_data = h5py.File(args.training)
-    dev_data = h5py.File(args.dev)
-    test_data = h5py.File(args.test)
+#    print ('Yes2')
+    training_data = h5py.File('../train-filtered.hdf5')
+    dev_data = h5py.File('../dev-filtered.hdf5')
+    test_data = h5py.File('../test-filtered.hdf5')
 
     try:
+#        print ('Yes3')
         run_training(training_data, dev_data, test_data,
-                     args.model_dir)
+                     '../saved-model')
     finally:
         training_data.close()
         dev_data.close()
