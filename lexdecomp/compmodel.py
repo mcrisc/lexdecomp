@@ -58,7 +58,8 @@ def conv_layer(in_data):
         pooled_outputs.append(pooled)
 
     # concatenating feature maps
-    features = tf.concat(3, pooled_outputs)
+    features = tf.concat(pooled_outputs,axis = 3)
+#    features = [pooled_outputs[0], pooled_outputs[1], pooled_outputs[2]]
     total_feature_maps = len(FILTER_SIZES) * NUM_FEATURE_MAPS
     features_flat = tf.reshape(features, [-1, total_feature_maps])
     # features_flat.shape = [batch, total_feature_maps]
@@ -88,7 +89,8 @@ def inference(questions, sentences, keep_prob):
     """
     question_features = conv_layer(questions)
     sentence_features = conv_layer(sentences)
-    features = tf.concat(1, [question_features, sentence_features])
+    features = tf.concat([question_features, sentence_features],axis=1)
+#    features = [1, question_features, sentence_features]
     scores = hidden_layer(features, keep_prob)
     return scores
 
